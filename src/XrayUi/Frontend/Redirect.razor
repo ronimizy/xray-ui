@@ -1,0 +1,16 @@
+@inject NavigationManager NavigationManager
+
+@code {
+
+    [Parameter]
+    public string? Url { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        if (Url is null)
+            return;
+
+        NavigationManager.NavigateTo(Url);
+    }
+
+}

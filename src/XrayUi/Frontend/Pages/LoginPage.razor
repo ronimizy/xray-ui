@@ -1,0 +1,92 @@
+@page "/login"
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.Extensions.Options
+@using XrayUi.Authorization
+@using XrayUi.Options
+@using HorizontalAlignment = Phazor.Components.Models.HorizontalAlignment
+@attribute [AllowAnonymous]
+@inject NavigationManager Navigation
+@inject IOptionsMonitor<XrayAuthorizationOptions> AuthorizationOptions
+@inject ISnackbar Snackbar
+@inject XrayAuthorizationStateProvider AuthorizationStateProvider
+
+<PhazorVStack Style="flex-grow: 1" Horizontal="HorizontalAlignment.Center" Class="x-login-form-container">
+
+    <EditForm
+        Model="_model"
+        OnValidSubmit="OnLoginClicked">
+
+        <DataAnnotationsValidator/>
+
+        <PhazorVStack
+            Style="width: 100%; max-width: 500px; min-width: 300px; gap: 10px"
+            Horizontal="HorizontalAlignment.Stretch">
+
+            <MudTextField
+                @bind-Value="_model.Username"
+                For="@(() => _model.Username)"
+                Label="Username"
+                Immediate="true"/>
+
+            <MudTextField
+                @bind-Value="_model.Password"
+                For="@(() => _model.Password)"
+                Label="Password"
+                InputType="InputType.Password"
+                Immediate="true"/>
+
+            <MudButton
+                ButtonType="ButtonType.Submit"
+                Color="Color.Info"
+                Variant="Variant.Filled"
+                Disabled="@(LoginButtonEnabled is false)">
+                Login
+            </MudButton>
+
+        </PhazorVStack>
+
+    </EditForm>
+
+</PhazorVStack>
+
+@code {
+
+    private readonly LoginModel _model = new();
+
+    private bool LoginButtonEnabled =>
+        string.IsNullOrEmpty(_model.Username) is false
+        && string.IsNullOrEmpty(_model.Password) is false;
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string? ReturnUrl { get; set; }
+
+    private Task OnLoginClicked()
+    {
+        if (string.IsNullOrEmpty(_model.Username) || string.IsNullOrEmpty(_model.Password))
+            return Task.CompletedTask;
+
+        XrayAuthorizationOptions options = AuthorizationOptions.CurrentValue;
+
+        if (options.Username.Equals(_model.Username) is false || options.Password.Equals(_model.Password) is false)
+        {
+            Snackbar.Add("Invalid credentials", Severity.Error, key: Guid.NewGuid().ToString());
+            return Task.CompletedTask;
+        }
+
+        AuthorizationStateProvider.OnLoggedIn();
+        Navigation.NavigateTo(ReturnUrl ?? "/");
+
+        return Task.CompletedTask;
+    }
+
+    private class LoginModel
+    {
+        [Required]
+        public string? Username { get; set; }
+
+        [Required]
+        public string? Password { get; set; }
+    }
+
+}

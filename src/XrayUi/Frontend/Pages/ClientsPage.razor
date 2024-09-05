@@ -1,0 +1,89 @@
+@page "/clients"
+@using Phazor.Components.Models
+@using XrayUi.Application.Contracts.Clients
+@using XrayUi.Application.Models
+@using HorizontalAlignment = Phazor.Components.Models.HorizontalAlignment
+@inject IVpnClientService ClientService
+@inject IDialogService DialogService
+
+<div class="x-clients-page-wrapper">
+    <PhazorHStack
+        Vertical="VerticalAlignment.Stretch"
+        Horizontal="HorizontalDistribution.Between">
+
+        <MudPaper Class="x-clients-page-card pa-5" Elevation="3" Style="flex-basis: 50%">
+            <PhazorVStack
+                Horizontal="HorizontalAlignment.Stretch"
+                Vertical="VerticalDistribution.Top"
+                Style="gap: 10px">
+
+                <PhazorHStack
+                    Horizontal="HorizontalDistribution.Between">
+
+                    <MudText Typo="Typo.h4">
+                        Clients
+                    </MudText>
+
+                    <MudButton
+                        StartIcon="@Icons.Material.Filled.Add"
+                        Variant="Variant.Outlined"
+                        OnClick="OnAddButtonClicked">
+                        Add
+                    </MudButton>
+
+                </PhazorHStack>
+
+                @foreach (VpnClient client in _clients)
+                {
+                    <ClientItemComponent Client="client" OnClick="OnClientSelected"/>
+                }
+
+            </PhazorVStack>
+        </MudPaper>
+
+        <ClientComponent @bind-Client="_selectedClient" OnRemoved="LoadClientsAsync"/>
+
+    </PhazorHStack>
+</div>
+
+@code {
+
+    private readonly DialogOptions _dialogOptions = new()
+    {
+        MaxWidth = MaxWidth.Small,
+        FullWidth = true,
+    };
+
+    private IReadOnlyCollection<VpnClient> _clients = [];
+
+    private VpnClient? _selectedClient;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadClientsAsync();
+    }
+
+    private async Task LoadClientsAsync()
+    {
+        _clients = await ClientService.ListAsync(default);
+    }
+
+    private async Task OnAddButtonClicked()
+    {
+        var parameters = new DialogParameters
+        {
+            { nameof(AddClientDialog.OnAdded), new EventCallback(this, LoadClientsAsync) },
+        };
+
+        await DialogService.ShowAsync<AddClientDialog>("Add client", parameters, _dialogOptions);
+    }
+
+    private Task OnClientSelected(VpnClient client)
+    {
+        _selectedClient = client;
+        StateHasChanged();
+
+        return Task.CompletedTask;
+    }
+
+}

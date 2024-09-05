@@ -1,0 +1,5 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\XrayUi.Application.Models\XrayUi.Application.Models.csproj" />
+  </ItemGroup>
+</Project>

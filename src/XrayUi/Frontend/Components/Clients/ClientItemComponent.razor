@@ -1,0 +1,72 @@
+@using Phazor.Components.Models
+@using XrayUi.Application.Contracts.Clients
+@using XrayUi.Application.Models
+@using HorizontalAlignment = Phazor.Components.Models.HorizontalAlignment
+@namespace XrayUi.Frontend.Components
+@inject IVpnClientService ClientService
+@inject ISnackbar Snackbar
+@inject IJSRuntime Js
+
+@if (Client is not null)
+{
+    <div @onclick="OnCardClicked" @onclick:stopPropagation="true">
+        <MudPaper Class="pa-4 x-client-item-card">
+            <PhazorHStack
+                Horizontal="HorizontalDistribution.Between">
+
+                <PhazorVStack Horizontal="HorizontalAlignment.Left">
+
+                    <MudText Typo="Typo.body1" Style="font-weight: bold">
+                        @Client.Name
+                    </MudText>
+
+                    <MudText Typo="Typo.caption">
+                        @Client.Id
+                    </MudText>
+
+                </PhazorVStack>
+
+            </PhazorHStack>
+        </MudPaper>
+    </div>
+}
+
+@code {
+
+    [Parameter]
+    [EditorRequired]
+    public VpnClient? Client { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public EventCallback<VpnClient> OnClick { get; set; }
+
+    private async Task OnCardClicked()
+    {
+        if (Client is null)
+            return;
+
+        await OnClick.InvokeAsync(Client);
+    }
+
+    private async Task OnCopyConfigClicked()
+    {
+        if (Client is null)
+            return;
+
+        var request = new GetClientConfig.Request(Client.Id);
+        GetClientConfig.Response response = await ClientService.GetConfigAsync(request, default);
+
+        if (response is GetClientConfig.Response.Success success)
+        {
+            await Js.InvokeVoidAsync("Clipboard.copy", success.Config);
+            Snackbar.Add($"Copied config for client {Client.Name}");
+        }
+
+        if (response is GetClientConfig.Response.NotFound)
+        {
+            Snackbar.Add("Client not found", Severity.Error);
+        }
+    }
+
+}

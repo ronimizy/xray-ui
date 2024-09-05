@@ -1,0 +1,20 @@
+version: '3.9'
+
+services:
+  custom-xray:
+    image: custom-xray:latest
+    build:
+      context: .
+    platform: linux/amd64
+    container_name: custom-xray-container
+    ports:
+      - "8080:8080"
+      - "443:443"
+    volumes:
+      - ./xray-ui-config.json:/app/xray-ui-config.json
+      - persistence-volume:/persistence
+        
+volumes:
+  persistence-volume:
+    name: xray-ui-persistence
+    external: true

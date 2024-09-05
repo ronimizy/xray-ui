@@ -1,0 +1,29 @@
+{
+  "Authorization": {
+    "Username": "username",
+    "Password": "password"
+  },
+  "Persistence": {
+    "DatabasePath": "/persistence"
+  },
+  "Xray": {
+    "ConfigPath": "config.json",
+    "Server": {
+      "LogLevel": "debug",
+      "InboundPort": 443,
+      "PrivateKey": "---", // ypur private key here
+      "Reality": {
+        "Destination": "google.com:443",
+        "ServerNames": [
+          "google.com"
+        ]
+      }
+    },
+    "Client": {
+      "LogLevel": "debug",
+      "ServerAddress": "127.0.0.1", // your server IP here
+      "ServerPort": 443,
+      "PublicKey": "---" // your public key here
+    }
+  }
+}

@@ -1,0 +1,48 @@
+﻿@using Phazor.Components.Models
+@using HorizontalAlignment = Phazor.Components.Models.HorizontalAlignment
+@inherits LayoutComponentBase
+@inject ISnackbar Snackbar
+
+<MudThemeProvider/>
+<MudPopoverProvider/>
+
+<MudDialogProvider/>
+
+<MudSnackbarProvider/>
+
+<div class="x-layout-wrapper">
+    <PhazorVStack
+        Class="x-layout-container"
+        Vertical="VerticalDistribution.Top"
+        Horizontal="HorizontalAlignment.Stretch">
+
+        <PhazorHStack
+            Class="x-layout-header"
+            Horizontal="HorizontalDistribution.Left">
+
+            <MudText Typo="Typo.h3">
+                Xray UI
+            </MudText>
+
+        </PhazorHStack>
+
+        <PhazorVStack
+            Class="x-layout-content"
+            Vertical="VerticalDistribution.Top"
+            Horizontal="HorizontalAlignment.Stretch">
+
+            @Body
+
+        </PhazorVStack>
+
+    </PhazorVStack>
+</div>
+
+@code {
+
+    protected override void OnInitialized()
+    {
+        Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
+    }
+
+}

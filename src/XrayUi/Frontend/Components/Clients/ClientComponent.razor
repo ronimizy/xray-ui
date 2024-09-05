@@ -1,0 +1,164 @@
+@using Phazor.Components.Extensions
+@using Phazor.Components.Models
+@using XrayUi.Application.Contracts.Clients
+@using XrayUi.Application.Models
+@using HorizontalAlignment = Phazor.Components.Models.HorizontalAlignment
+@namespace XrayUi.Frontend.Components
+@inject IVpnClientService ClientService
+@inject ISnackbar Snackbar
+
+<MudPaper
+    Elevation="3"
+    Class="pa-5"
+    Style="flex-basis: 50%; overflow: scroll; margin: 10px 5px 10px">
+
+    @if (Client is not null)
+    {
+        <PhazorVStack
+            Vertical="VerticalDistribution.Top"
+            Horizontal="HorizontalAlignment.Stretch">
+
+            <PhazorHStack
+                Horizontal="HorizontalDistribution.Between">
+
+                <PhazorVStack Horizontal="HorizontalAlignment.Left">
+
+                    <MudText Typo="Typo.h6" Style="font-weight: bold">
+                        @Client.Name
+                    </MudText>
+
+                    <MudText Typo="Typo.caption">
+                        @Client.Id
+                    </MudText>
+
+                </PhazorVStack>
+
+                <MudButton
+                    StartIcon="@Icons.Material.Filled.Remove"
+                    Variant="Variant.Outlined"
+                    OnClick="OnRemoveClicked">
+                    Remove
+                </MudButton>
+
+            </PhazorHStack>
+
+            <PhazorHStack Horizontal="HorizontalDistribution.Between">
+
+                <MudText Typo="Typo.subtitle1" Class="pt-5 pb-1">
+                    Config
+                </MudText>
+
+                <MudButtonGroup Variant="Variant.Filled">
+
+                    <MudButton
+                        OnClick="@(() => OnConfigModeChanged(ConfigMode.Json))"
+                        Disabled="@(ConfigModeButtonDisabled(ConfigMode.Json))">
+                        JSON
+                    </MudButton>
+
+                    <MudButton
+                        OnClick="@(() => OnConfigModeChanged(ConfigMode.Qr))"
+                        Disabled="@(ConfigModeButtonDisabled(ConfigMode.Qr))">
+                        QR
+                    </MudButton>
+
+                </MudButtonGroup>
+
+            </PhazorHStack>
+
+            @if (_configMode is ConfigMode.Json)
+            {
+                <MudMarkdown Value="@ConfigMarkdown"/>
+            }
+
+            @if (_configMode is ConfigMode.Qr)
+            {
+                <QRCode 
+                    Value="@_config" 
+                    Class="x-client-qr-code"
+                    PixelsPerModule="30"/>
+            }
+
+        </PhazorVStack>
+    }
+
+</MudPaper>
+
+@code {
+
+    private string? _config;
+    private ConfigMode _configMode = ConfigMode.Json;
+
+    private string ConfigMarkdown => $"```json\n{_config}\n```";
+
+    [Parameter]
+    [EditorRequired]
+    public VpnClient? Client { get; set; }
+
+    [Parameter]
+    public EventCallback<VpnClient?> ClientChanged { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public EventCallback OnRemoved { get; set; }
+
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        bool clientUpdated = parameters.TryGetUpdatedValue(nameof(Client), Client, out _);
+
+        await base.SetParametersAsync(parameters);
+
+        if (clientUpdated && Client is not null)
+        {
+            var request = new GetClientConfig.Request(Client.Id);
+            GetClientConfig.Response response = await ClientService.GetConfigAsync(request, default);
+
+            if (response is GetClientConfig.Response.Success success)
+            {
+                _config = success.Config;
+            }
+        }
+    }
+
+    private async Task OnRemoveClicked()
+    {
+        if (Client is null)
+            return;
+
+        var request = new RemoveClient.Request(Client.Id);
+        RemoveClient.Response response = await ClientService.RemoveAsync(request, default);
+
+        if (response is RemoveClient.Response.Success)
+        {
+            Snackbar.Add("Client removed", Severity.Success);
+            await OnRemoved.InvokeAsync();
+        }
+
+        if (response is RemoveClient.Response.NotFound)
+        {
+            Snackbar.Add("Client not found", Severity.Error);
+            await OnRemoved.InvokeAsync();
+        }
+
+        Client = null;
+        await ClientChanged.InvokeAsync(Client);
+    }
+
+    private void OnConfigModeChanged(ConfigMode mode)
+    {
+        _configMode = mode;
+        StateHasChanged();
+    }
+
+    private bool ConfigModeButtonDisabled(ConfigMode mode)
+    {
+        return mode.Equals(_configMode);
+    }
+
+    private enum ConfigMode
+    {
+        Json,
+        Qr,
+    }
+
+}

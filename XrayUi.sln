@@ -1,0 +1,96 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{27366FAE-52F2-4043-BE80-618C87B96BD1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{AB64319F-3010-4991-BF2E-35E15FDD772C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XrayUi.Application.Contracts", "src\Application\XrayUi.Application.Contracts\XrayUi.Application.Contracts.csproj", "{61897B24-E448-407E-A951-7BD88A6F029F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{5B1A3F9F-8ABC-4722-8D77-98E42EAB0387}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+		Directory.Packages.props = Directory.Packages.props
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XrayUi.Application.Models", "src\Application\XrayUi.Application.Models\XrayUi.Application.Models.csproj", "{7428B653-9C2F-412E-928A-F292B90A2DDF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XrayUi.Application.Abstractions", "src\Application\XrayUi.Application.Abstractions\XrayUi.Application.Abstractions.csproj", "{375C8AB1-7950-4742-A7A9-1CFC2A037D9D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XrayUi.Application", "src\Application\XrayUi.Application\XrayUi.Application.csproj", "{427FD58D-8C9D-472C-AD13-C8D68CB19118}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{636E67D9-1381-4A49-B22E-6D79D011A9A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XrayUi.Infrastructure.Xray", "src\Infrastructure\XrayUi.Infrastructure.Xray\XrayUi.Infrastructure.Xray.csproj", "{E1568CA1-3CC2-4343-AB26-A55E2E6182BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XrayUi.Infrastructure.Persistence", "src\Infrastructure\XrayUi.Infrastructure.Persistence\XrayUi.Infrastructure.Persistence.csproj", "{B34A9BB9-5449-4C8A-9302-F6918CA02193}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XrayUi", "src\XrayUi\XrayUi.csproj", "{47F5900E-8C0F-4A64-A887-5826CBE2E319}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{000DB3A7-71BD-4DB1-B6FE-3C3A3DAD5208}"
+	ProjectSection(SolutionItems) = preProject
+		docker\.dockerignore = .dockerignore
+		docker\Dockerfile = Dockerfile
+		docker-compose.yaml = docker-compose.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "github", "github", "{A6F2E156-DD39-4BF5-A744-2D39D91CEA8E}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\build-docker-image.yaml = .github\workflows\build-docker-image.yaml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AB64319F-3010-4991-BF2E-35E15FDD772C} = {27366FAE-52F2-4043-BE80-618C87B96BD1}
+		{61897B24-E448-407E-A951-7BD88A6F029F} = {AB64319F-3010-4991-BF2E-35E15FDD772C}
+		{7428B653-9C2F-412E-928A-F292B90A2DDF} = {AB64319F-3010-4991-BF2E-35E15FDD772C}
+		{375C8AB1-7950-4742-A7A9-1CFC2A037D9D} = {AB64319F-3010-4991-BF2E-35E15FDD772C}
+		{427FD58D-8C9D-472C-AD13-C8D68CB19118} = {AB64319F-3010-4991-BF2E-35E15FDD772C}
+		{636E67D9-1381-4A49-B22E-6D79D011A9A3} = {27366FAE-52F2-4043-BE80-618C87B96BD1}
+		{E1568CA1-3CC2-4343-AB26-A55E2E6182BF} = {636E67D9-1381-4A49-B22E-6D79D011A9A3}
+		{B34A9BB9-5449-4C8A-9302-F6918CA02193} = {636E67D9-1381-4A49-B22E-6D79D011A9A3}
+		{47F5900E-8C0F-4A64-A887-5826CBE2E319} = {27366FAE-52F2-4043-BE80-618C87B96BD1}
+		{000DB3A7-71BD-4DB1-B6FE-3C3A3DAD5208} = {5B1A3F9F-8ABC-4722-8D77-98E42EAB0387}
+		{A6F2E156-DD39-4BF5-A744-2D39D91CEA8E} = {5B1A3F9F-8ABC-4722-8D77-98E42EAB0387}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{61897B24-E448-407E-A951-7BD88A6F029F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61897B24-E448-407E-A951-7BD88A6F029F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61897B24-E448-407E-A951-7BD88A6F029F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61897B24-E448-407E-A951-7BD88A6F029F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7428B653-9C2F-412E-928A-F292B90A2DDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7428B653-9C2F-412E-928A-F292B90A2DDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7428B653-9C2F-412E-928A-F292B90A2DDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7428B653-9C2F-412E-928A-F292B90A2DDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{375C8AB1-7950-4742-A7A9-1CFC2A037D9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{375C8AB1-7950-4742-A7A9-1CFC2A037D9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{375C8AB1-7950-4742-A7A9-1CFC2A037D9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{375C8AB1-7950-4742-A7A9-1CFC2A037D9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{427FD58D-8C9D-472C-AD13-C8D68CB19118}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{427FD58D-8C9D-472C-AD13-C8D68CB19118}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{427FD58D-8C9D-472C-AD13-C8D68CB19118}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{427FD58D-8C9D-472C-AD13-C8D68CB19118}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1568CA1-3CC2-4343-AB26-A55E2E6182BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1568CA1-3CC2-4343-AB26-A55E2E6182BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1568CA1-3CC2-4343-AB26-A55E2E6182BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1568CA1-3CC2-4343-AB26-A55E2E6182BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B34A9BB9-5449-4C8A-9302-F6918CA02193}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B34A9BB9-5449-4C8A-9302-F6918CA02193}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B34A9BB9-5449-4C8A-9302-F6918CA02193}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B34A9BB9-5449-4C8A-9302-F6918CA02193}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47F5900E-8C0F-4A64-A887-5826CBE2E319}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47F5900E-8C0F-4A64-A887-5826CBE2E319}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47F5900E-8C0F-4A64-A887-5826CBE2E319}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47F5900E-8C0F-4A64-A887-5826CBE2E319}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
