@@ -197,43 +197,44 @@ xray-ui does NOT support excessive xray configuration, but there are some option
 ```json
 {
   "Authorization": {
+    // required
     "Username": string,
     // required
     "Password": string
-    // required
   },
   "Persistence": {
-    "DatabasePath": string
     // path in container where SQLite files will be stored, default = /app
+    "DatabasePath": string
   },
   "Xray": {
-    "ConfigPath": string
     // path in container where xray server config will be stored, default /app/config.json
+    "ConfigPath": string
     "Server": {
-      "LogLevel": string
       // default = debug
-      "InboundPort": int
+      "LogLevel": string
       // port on which xray will be listening inside container, default = 443
-      "PrivateKey": string,
+      "InboundPort": int
       // required, private key for xray server
+      "PrivateKey": string,
+      // Reality configuation
       "Reality": {
-        "Destination": string,
         // url:port, destination address for Reality masking
+        "Destination": string,
+        // url, server addresses for Reality masking
         "ServerNames": [
           string
         ]
-        // url, server addresses for Reality masking
       }
     },
     "Client": {
-      "LogLevel": string,
       // default = debug
-      "ServerAddress": string,
+      "LogLevel": string,
       // required, IP address of your host VM
-      "ServerPort": int,
+      "ServerAddress": string,
       // default = 443
-      "PublicKey": string
+      "ServerPort": int,
       // required, public key for xray clients
+      "PublicKey": string
     }
   }
 }
