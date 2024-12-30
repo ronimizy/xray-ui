@@ -1,18 +1,21 @@
-version: '3.9'
-
 services:
   custom-xray:
-    image: custom-xray:latest
-    build:
-      context: .
-    platform: linux/amd64
-    container_name: custom-xray-container
+    image: ghcr.io/ronimizy/xray-ui:master
+    container_name: xray
     ports:
       - "8080:8080"
       - "443:443"
     volumes:
-      - ./xray-ui-config.json:/app/xray-ui-config.json
+#      - ./xray-ui-config.json:/app/xray-ui-config.json # use this file for granular configuration
+#      - ./xray-ui-config.min.json:/app/xray-ui-config.json # use this file when configuring only necessary values
       - persistence-volume:/persistence
+    environment:
+      Authorization__Username: "username"
+      Authorization__Password: "password"
+      Persistence__DatabasePath: "/persistence"
+      Xray__Server__PrivateKey: "---"
+      Xray__Client__ServerAddress: "127.0.0.1" # your server address here
+      Xray__Client__PublicKey: "---"
         
 volumes:
   persistence-volume:

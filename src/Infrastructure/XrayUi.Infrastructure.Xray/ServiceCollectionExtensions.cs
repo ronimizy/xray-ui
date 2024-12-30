@@ -14,15 +14,21 @@ public static class ServiceCollectionExtensions
     {
         collection
             .AddOptions<XrayOptions>()
-            .BindConfiguration("Xray");
+            .BindConfiguration("Xray")
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
 
         collection
             .AddOptions<XrayServerOptions>()
-            .BindConfiguration("Xray:Server");
+            .BindConfiguration("Xray:Server")
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
 
         collection
             .AddOptions<XrayClientOptions>()
-            .BindConfiguration("Xray:Client");
+            .BindConfiguration("Xray:Client")
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
 
         collection.AddSingleton<IXrayClientConfigFormatter, XrayClientConfigFormatter>();
         collection.AddSingleton<IXrayServerConfigFormatter, XrayServerConfigFormatter>();
