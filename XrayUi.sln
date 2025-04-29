@@ -14,6 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{5B1A3F
 		Directory.Build.props = Directory.Build.props
 		Directory.Packages.props = Directory.Packages.props
 		.editorconfig = .editorconfig
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XrayUi.Application.Models", "src\Application\XrayUi.Application.Models\XrayUi.Application.Models.csproj", "{7428B653-9C2F-412E-928A-F292B90A2DDF}"

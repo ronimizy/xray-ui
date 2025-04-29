@@ -12,6 +12,8 @@ public class XrayServerOptions : IValidatableObject
 
     public XrayRealityOptions Reality { get; set; } = new();
 
+    public XrayDnsOptions Dns { get; set; } = new();
+
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
         if (InboundPort is 0)
@@ -21,6 +23,11 @@ public class XrayServerOptions : IValidatableObject
             yield return new ValidationResult("Private key must be specified");
 
         foreach (ValidationResult result in Reality.Validate(validationContext))
+        {
+            yield return result;
+        }
+
+        foreach (ValidationResult result in Dns.Validate(validationContext))
         {
             yield return result;
         }

@@ -208,12 +208,12 @@ xray-ui does NOT support excessive xray configuration, but there are some option
   },
   "Xray": {
     // path in container where xray server config will be stored, default /app/config.json
-    "ConfigPath": string
+    "ConfigPath": string,
     "Server": {
       // default = debug
-      "LogLevel": string
+      "LogLevel": string,
       // port on which xray will be listening inside container, default = 443
-      "InboundPort": int
+      "InboundPort": int,
       // required, private key for xray server
       "PrivateKey": string,
       // Reality configuation
@@ -223,6 +223,16 @@ xray-ui does NOT support excessive xray configuration, but there are some option
         // url, server addresses for Reality masking
         "ServerNames": [
           string
+        ]
+      },
+      "Dns": {
+        "Servers": [
+          {
+            // address of dns server
+            "Address": string,
+            // port of dns server
+            "Port": int
+          }
         ]
       }
     },

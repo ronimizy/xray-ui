@@ -130,6 +130,14 @@ internal class XrayServerConfigFormatter : IXrayServerConfigFormatter
                     },
                 },
             },
+            dns = new
+            {
+                servers = options.Dns.Servers.Select(server => new
+                {
+                    address = server.Address,
+                    port = server.Port,
+                }),
+            },
         };
     }
 
