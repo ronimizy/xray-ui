@@ -84,6 +84,22 @@ internal class XrayClientConfigFormatter : IXrayClientConfigFormatter
                     tag = "proxy",
                 },
             },
+            routing = new
+            {
+                domainStrategy = "IPIfNonMatch",
+                rules = new object[]
+                {
+                    new
+                    {
+                        type = "field",
+                        ip = new object[]
+                        {
+                            $"{clientOptions.ServerAddress}/32",
+                        },
+                        outboundTag = "direct",
+                    },
+                },
+            },
         };
     }
 }
