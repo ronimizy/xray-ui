@@ -112,11 +112,23 @@ internal class XrayServerConfigFormatter : IXrayServerConfigFormatter
                     protocol = "blackhole",
                     tag = "block",
                 },
+                new
+                {
+                    protocol = "dns",
+                    tag = "dns-out",
+                },
             },
             routing = new
             {
                 rules = new object[]
                 {
+                    new
+                    {
+                        type = "field",
+                        network = "udp",
+                        port = 53,
+                        outboundTag = "dns-out",
+                    },
                     new
                     {
                         inboundTag = new[] { "dokodemo-in" },
