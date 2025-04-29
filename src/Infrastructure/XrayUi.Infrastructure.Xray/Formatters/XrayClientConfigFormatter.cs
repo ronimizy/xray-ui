@@ -83,6 +83,11 @@ internal class XrayClientConfigFormatter : IXrayClientConfigFormatter
                     },
                     tag = "proxy",
                 },
+                new
+                {
+                    protocol = "freedom",
+                    tag = "direct",
+                },
             },
             routing = new
             {
